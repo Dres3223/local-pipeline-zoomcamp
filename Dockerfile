@@ -1,18 +1,15 @@
 FROM python:3.13.10-slim
 
-# copiamos uv desde imagen oficial
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
 
-WORKDIR /app
+WORKDIR /code
 
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/code/.venv/bin:$PATH"
 
-# copiar primero dependencias (mejor cache)
-COPY pyproject.toml uv.lock .python-version ./
+COPY pyproject.toml .python-version uv.lock ./
 
 RUN uv sync --locked
 
-# copiar código
-COPY pipeline/pipeline.py pipeline.py
+COPY ingest_data.py .
 
-ENTRYPOINT ["uv", "run", "python", "pipeline.py"]
+ENTRYPOINT ["uv", "run", "python", "ingest_data.py"]

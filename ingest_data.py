@@ -8,7 +8,7 @@ def main():
 
     user = "root"
     password = "root"
-    host = "localhost"
+    host = "pgdatabase"
     port = 5432
     db = "ny_taxi"
     table_name = "yellow_taxi_data"
